@@ -21,9 +21,15 @@ final class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'first_name',
+        'last_name',
+        'language',
+        'type',
+        'email_address',
         'password',
+        'pending_registration',
+        'deleted',
+        'supplier_id',
     ];
 
     /**
@@ -42,7 +48,19 @@ final class User extends Authenticatable
      * @return array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'pending_registration' => 'boolean',
+        'deleted' => 'boolean',
     ];
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
